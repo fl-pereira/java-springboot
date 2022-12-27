@@ -1,0 +1,5 @@
+package com.felipepereira.cursospringboot.entities;
+
+public class User {
+
+}
