@@ -1,14 +1,8 @@
 package com.felipepereira.springboot.config;
 
-import com.felipepereira.springboot.entities.Category;
-import com.felipepereira.springboot.entities.Order;
-import com.felipepereira.springboot.entities.Product;
-import com.felipepereira.springboot.entities.User;
+import com.felipepereira.springboot.entities.*;
 import com.felipepereira.springboot.entities.enums.OrderStatus;
-import com.felipepereira.springboot.repositories.CategoryRepository;
-import com.felipepereira.springboot.repositories.OrderRepository;
-import com.felipepereira.springboot.repositories.ProductRepository;
-import com.felipepereira.springboot.repositories.UserRepository;
+import com.felipepereira.springboot.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +26,9 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -60,5 +57,20 @@ public class TestConfig implements CommandLineRunner {
         orderRepository.saveAll(Arrays.asList(o1,o2,o3,o4,o5));
         categoryRepository.saveAll(Arrays.asList(ct1,ct2,ct3));
         productRepository.saveAll(Arrays.asList(prod1,prod2,prod3,prod4,prod5));
+
+        prod1.getCategories().add(ct3);
+        prod2.getCategories().add(ct2);
+        prod3.getCategories().add(ct1);
+        prod4.getCategories().add(ct3);
+        prod5.getCategories().add(ct2);
+
+        productRepository.saveAll(Arrays.asList(prod1,prod2,prod3,prod4,prod5));
+
+        OrderItem oi1 = new OrderItem(o1, prod1, 2, prod1.getPrice());
+        OrderItem oi2 = new OrderItem(o1, prod2, 2, prod2.getPrice());
+        OrderItem oi3 = new OrderItem(o2, prod2, 2, prod2.getPrice());
+
+        orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3));
+
     }
 }
